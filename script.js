@@ -55,6 +55,9 @@ document.addEventListener('DOMContentLoaded', () => {
             baseUrl = data.base_url;
             episodes = data.links;
             renderPlaylist(episodes);
+            if (episodes.length > 0) {
+                playEpisode(0);
+            }
         })
         .catch(error => console.error('Error:', error));
 
@@ -82,21 +85,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Move search functionality here
-    const searchInput = document.getElementById('searchInput');
-    searchInput.addEventListener('input', (e) => {
-        const searchTerm = e.target.value.toLowerCase();
-        const filteredEpisodes = episodes.filter(episode => 
-            episode.title.toLowerCase().includes(searchTerm) || 
-            getEpisodeNumber(episode.href).includes(searchTerm)
-        );
-        renderPlaylist(filteredEpisodes);
-    });
-
     function playEpisode(index) {
         const episode = episodes[index];
-        const originalUrl = `${baseUrl}${episode.href}`;
-        const proxyUrl = `/proxy?url=${encodeURIComponent(originalUrl)}`;
+        const videoSrc = `${baseUrl}${episode.href}`;
     
         document.querySelectorAll('.playlist-item').forEach(item => 
             item.classList.remove('active')
@@ -110,10 +101,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         player.source = {
             type: 'video',
-            sources: [{ src: proxyUrl, type: 'video/mp4' }]
+            sources: [{ src: videoSrc, type: 'video/mp4' }]
         };
     
-        // Optional: Scroll playlist item into view
         document.querySelectorAll('.playlist-item')[index].scrollIntoView({
             behavior: 'smooth',
             block: 'nearest'
@@ -124,4 +114,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const match = filename.match(/E(\d+)/);
         return match ? match[1] : 'Unknown';
     }
+
+    // Search functionality
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+        const filteredEpisodes = episodes.filter(episode => 
+            episode.title.toLowerCase().includes(searchTerm) || 
+            getEpisodeNumber(episode.href).includes(searchTerm)
+        );
+        renderPlaylist(filteredEpisodes);
+    });
 });
