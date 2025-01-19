@@ -1,0 +1,475 @@
+:root {
+    --primary: #e50914;
+    --secondary: #b81d24;
+    --background: #141414;
+    --surface: #181818;
+    --surface-light: #232323;
+    --text: #ffffff;
+    --text-muted: #b3b3b3;
+    --shadow: rgba(0, 0, 0, 0.3);
+}
+
+body {
+    margin: 0;
+    font-family: 'Netflix Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: var(--background);
+    color: var(--text);
+    height: 100vh;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+.app-container {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    height: 100vh;
+}
+
+.sidebar {
+    background: var(--surface);
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid rgba(255,255,255,0.1);
+    height: 100vh;
+}
+
+.brand {
+    padding: 24px;
+    font-size: 26px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--primary);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.search-wrapper {
+    padding: 20px;
+    position: relative;
+}
+
+.search-wrapper input {
+    width: 100%;
+    padding: 12px 16px 12px 40px;
+    border: none;
+    border-radius: 4px;
+    background: var(--surface-light);
+    color: var(--text);
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.search-wrapper input:focus {
+    background: rgba(255,255,255,0.1);
+    outline: none;
+}
+
+.search-wrapper i {
+    position: absolute;
+    left: 32px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+}
+
+.playlist {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 20px 20px;
+}
+
+.playlist-item {
+    padding: 16px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: var(--surface-light);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.playlist-item i {
+    color: var(--text-muted);
+    font-size: 18px;
+}
+
+.playlist-item:hover {
+    background: rgba(255,255,255,0.1);
+    transform: scale(1.02);
+}
+
+.playlist-item.active {
+    background: var(--primary);
+}
+
+.playlist-item.active i {
+    color: var(--text);
+}
+
+.content {
+    padding: 24px;
+    background: var(--background);
+}
+
+.player-wrapper {
+    aspect-ratio: 16/9;
+    background: black;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px var(--shadow);
+}
+
+.episode-info {
+    margin-top: 24px;
+    padding: 20px;
+    background: var(--surface);
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.episode-info h2 {
+    font-size: 24px;
+    margin: 0;
+}
+
+.controls-extra {
+    display: flex;
+    gap: 12px;
+}
+
+.controls-extra button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    background: var(--primary);
+    color: var(--text);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.controls-extra button:hover {
+    background: var(--secondary);
+    transform: translateY(-2px);
+}
+
+/* Custom scrollbar */
+.playlist::-webkit-scrollbar {
+    width: 8px;
+}
+
+.playlist::-webkit-scrollbar-track {
+    background: var(--surface);
+}
+
+.playlist::-webkit-scrollbar-thumb {
+    background: var(--surface-light);
+    border-radius: 4px;
+}
+
+.playlist::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+@media (max-width: 768px) {
+    .app-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .sidebar {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 45vh;
+        z-index: 100;
+    }
+    
+    .content {
+        padding: 16px;
+        padding-bottom: 45vh;
+    }
+    
+    .episode-info {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+    }
+}
+.playlist {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 20px;
+}
+
+.playlist-item {
+    padding: 16px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    background: var(--surface-light);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.playlist-item .episode-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+}
+
+.playlist-item .episode-title {
+    color: var(--text-muted);
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.playlist-item:hover {
+    background: rgba(255,255,255,0.1);
+    transform: scale(1.02);
+}
+
+.playlist-item.active {
+    background: var(--primary);
+}
+
+.playlist-item.active .episode-title {
+    color: var(--text);
+}
+
+.playlist-item i {
+    margin-right: 12px;
+    font-size: 18px;
+}
+
+/* Custom scrollbar styling */
+.playlist::-webkit-scrollbar {
+    width: 6px;
+}
+
+.playlist::-webkit-scrollbar-track {
+    background: var(--surface);
+}
+
+.playlist::-webkit-scrollbar-thumb {
+    background: var(--surface-light);
+    border-radius: 3px;
+}
+
+.playlist::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+.episodes-container {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+.playlist {
+    height: 100%;
+    overflow-y: auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.playlist-item {
+    padding: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: rgba(255,255,255,0.05);
+    display: flex;
+    align-items: center;
+}
+
+.playlist-item .episode-info {
+    flex: 1;
+    margin-left: 12px;
+}
+
+.sidebar {
+    background: var(--surface);
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid rgba(255,255,255,0.1);
+    height: 100vh;
+}
+/* Main container adjustments */
+.app-container {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Episode title containment */
+.playlist-item .episode-info {
+    flex: 1;
+    overflow: hidden;
+}
+
+.playlist-item .episode-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+    .app-container {
+        grid-template-columns: 1fr;
+        height: 100vh;
+        overflow: auto;
+    }
+    
+    .content {
+        height: 60vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1;
+    }
+    
+    .player-wrapper {
+        height: 100%;
+    }
+    
+    .sidebar {
+        margin-top: 60vh;
+        height: 40vh;
+        overflow: hidden;
+    }
+    
+    .playlist {
+        padding: 10px 15px;
+    }
+    
+    .episode-info {
+        padding: 15px;
+    }
+    
+    .controls-extra {
+        padding: 10px;
+        justify-content: space-between;
+    }
+}
+@media (max-width: 768px) {
+    .sidebar {
+        margin-top: 60vh;
+        height: 40vh;
+        padding: 10px;
+    }
+
+    .brand {
+        padding: 10px;
+        margin-bottom: 5px;
+    }
+
+    .search-wrapper {
+        padding: 5px 10px;
+    }
+
+    .playlist {
+        margin-top: 5px;
+    }
+}
+.content {
+    padding: 12px;
+    background: var(--background);
+}
+
+.player-wrapper {
+    aspect-ratio: 16/9;
+    background: black;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.episode-info {
+    margin-top: 12px;
+    padding: 12px;
+    background: var(--surface);
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+@media (max-width: 768px) {
+    .app-container {
+        grid-template-columns: 1fr;
+        height: 100vh;
+    }
+
+    .content {
+        width: 100%;
+        max-height: 40vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 2;
+    }
+
+    .player-wrapper {
+        width: 100%;
+        height: 100%;
+        max-height: 30vh;
+    }
+
+    .player-wrapper video {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .episode-info {
+        padding: 8px;
+        margin: 0;
+    }
+
+    .sidebar {
+        margin-top: 40vh;
+        height: 60vh;
+        padding: 10px;
+    }
+}
+@media (max-width: 768px) {
+    .content {
+        width: 96%;
+        margin: 10px auto;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .player-wrapper {
+        width: 100%;
+        border-radius: 12px 12px 0 0;
+    }
+
+    .episode-info {
+        border-radius: 0 0 12px 12px;
+    }
+
+    .sidebar {
+        width: 96%;
+        margin: 40vh auto 0;
+        border-radius: 12px;
+    }
+}
