@@ -280,80 +280,78 @@ document.addEventListener('DOMContentLoaded', () => {
                     "href": "Lock.Upp.S01.%282022%29.Ep.02.Day.01.1080p.WEB-DL.AVC.AAC.2.0-DusIcTv.mp4",
                     "title": "Lock.Upp.S01.(2022).Ep.02.Day.01.1080p.WEB-DL.A"
                 }
-            
-            // Your episode data here
-        ]
-    };
-
-    baseUrl = videoData.base_url;
-    episodes = videoData.links;
-    renderPlaylist(episodes);
-    if (episodes.length > 0) {
-        playEpisode(0);
-    }
-
-    function renderPlaylist(episodeList) {
-        const playlist = document.getElementById('playlist');
-        playlist.innerHTML = '';
-
-        episodeList.forEach((episode, index) => {
-            const item = document.createElement('div');
-            item.classList.add('playlist-item');
-            item.innerHTML = `
-                <i class="fas fa-play-circle"></i>
-                <div class="episode-info">
-                    <div>Episode ${getEpisodeNumber(episode.href)}</div>
-                    <div class="episode-title">${episode.title}</div>
-                </div>
-            `;
-            
-            item.addEventListener('click', () => {
-                currentEpisodeIndex = index;
-                playEpisode(index);
-            });
-
-            playlist.appendChild(item);
-        });
-    }
-
-    function playEpisode(index) {
-        const episode = episodes[index];
-        const videoSrc = `${baseUrl}${episode.href}`;
-    
-        document.querySelectorAll('.playlist-item').forEach(item => 
-            item.classList.remove('active')
-        );
-        document.querySelectorAll('.playlist-item')[index].classList.add('active');
-    
-        const episodeTitle = document.getElementById('currentEpisode');
-        if (episodeTitle) {
-            episodeTitle.textContent = `Episode ${getEpisodeNumber(episode.href)} - ${episode.title}`;
-        }
-
-        player.source = {
-            type: 'video',
-            sources: [{ src: videoSrc, type: 'video/mp4' }]
+            ]
         };
-    
-        document.querySelectorAll('.playlist-item')[index].scrollIntoView({
-            behavior: 'smooth',
-            block: 'nearest'
+        
+            baseUrl = videoData.base_url;
+            episodes = videoData.links;
+            renderPlaylist(episodes);
+            if (episodes.length > 0) {
+                playEpisode(0);
+            }
+        
+            function renderPlaylist(episodeList) {
+                const playlist = document.getElementById('playlist');
+                playlist.innerHTML = '';
+        
+                episodeList.forEach((episode, index) => {
+                    const item = document.createElement('div');
+                    item.classList.add('playlist-item');
+                    item.innerHTML = `
+                        <i class="fas fa-play-circle"></i>
+                        <div class="episode-info">
+                            <div>Episode ${getEpisodeNumber(episode.href)}</div>
+                            <div class="episode-title">${episode.title}</div>
+                        </div>
+                    `;
+                    
+                    item.addEventListener('click', () => {
+                        currentEpisodeIndex = index;
+                        playEpisode(index);
+                    });
+        
+                    playlist.appendChild(item);
+                });
+            }
+        
+            function playEpisode(index) {
+                const episode = episodes[index];
+                const videoSrc = `${baseUrl}${episode.href}`;
+            
+                document.querySelectorAll('.playlist-item').forEach(item => 
+                    item.classList.remove('active')
+                );
+                document.querySelectorAll('.playlist-item')[index].classList.add('active');
+            
+                const episodeTitle = document.getElementById('currentEpisode');
+                if (episodeTitle) {
+                    episodeTitle.textContent = `Episode ${getEpisodeNumber(episode.href)} - ${episode.title}`;
+                }
+        
+                player.source = {
+                    type: 'video',
+                    sources: [{ src: videoSrc, type: 'video/mp4' }]
+                };
+            
+                document.querySelectorAll('.playlist-item')[index].scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest'
+                });
+            }
+        
+            function getEpisodeNumber(filename) {
+                const match = filename.match(/E(\d+)/);
+                return match ? match[1] : 'Unknown';
+            }
+        
+            // Search functionality
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                const filteredEpisodes = episodes.filter(episode => 
+                    episode.title.toLowerCase().includes(searchTerm) || 
+                    getEpisodeNumber(episode.href).includes(searchTerm)
+                );
+                renderPlaylist(filteredEpisodes);
+            });
         });
-    }
-
-    function getEpisodeNumber(filename) {
-        const match = filename.match(/E(\d+)/);
-        return match ? match[1] : 'Unknown';
-    }
-
-    // Search functionality
-    const searchInput = document.getElementById('searchInput');
-    searchInput.addEventListener('input', (e) => {
-        const searchTerm = e.target.value.toLowerCase();
-        const filteredEpisodes = episodes.filter(episode => 
-            episode.title.toLowerCase().includes(searchTerm) || 
-            getEpisodeNumber(episode.href).includes(searchTerm)
-        );
-        renderPlaylist(filteredEpisodes);
-    });
-});
